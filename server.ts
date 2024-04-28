@@ -1,1 +1,5 @@
-console.log("Welcome to the backend of Waste Management");
+import app from './src/app';
+
+const startServer =() =>{
+    const port = process.env.PORT
+}
