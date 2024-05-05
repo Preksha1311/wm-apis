@@ -1,7 +1,7 @@
+import { User } from './userTypes';
 const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
 
-const userSchema = new Schema({
+const userSchema = new mongoose Schema<User>({
   name: {
     type: String,
     required: true,
@@ -16,12 +16,10 @@ const userSchema = new Schema({
     required: true,
     minlength: 6,
   },
-  location : {
-    type : String,
-    required: true
-  }
+},{
+  timestamps : true
 });
+//users collection
+export default mongoose.model<User> ('User', userSchema);
 
-const User = mongoose.model(`User`, userSchema);
-module.exports = User
 // users
