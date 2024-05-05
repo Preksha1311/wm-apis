@@ -1,6 +1,18 @@
 import {Response,Request,NextFunction} from 'express';
-
+import createHttpError from "http-errors"
 const createUser = async (req : Request,res:Response, next : NextFunction) => {
+  const {name, email, password} = req.body; //get destructure 
+   if (!name || !email || !password){
+    const error = createHttpError(400,"All fields are required");
+    return next(error);
+   }
+   
+  //validation
+
+  //process
+  //response
+
+
   res.json ( {message : "user created"})
 };
 

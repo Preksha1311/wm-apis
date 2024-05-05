@@ -1,7 +1,10 @@
 import express from "express"
 import globalErrorHandler from './middlewares/globalErrorHandler';
 import userRouter from './User/userRoutes';
+
+
 const app = express()
+app.use(express.json()) //json parser
 // const port = 3000
 
 app.get("/", (req ,res ,next) => {
