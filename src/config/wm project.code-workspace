@@ -1,0 +1,15 @@
+{
+  "folders": [
+	{
+		"name": "wm-apis",
+		"path": "../.."
+	},
+	{
+		"name": "wm-frontend",
+		"path": "../../../wm-frontend"
+	}
+],
+  "settings": {
+    "liveServer.settings.multiRootWorkspaceName": "wm-frontend"
+  }
+}
