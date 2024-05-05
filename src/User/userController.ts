@@ -1,7 +1,9 @@
 import {Response,Request,NextFunction} from 'express';
 import createHttpError from "http-errors"
-import { User } from './userTypes';
-import bcrypt from "bcrypt"
+import bcrypt from "bcrypt";
+import userModel from "./userModel"
+import { config } from '../config/config';
+import sign from "jsonwebtoken"
 const createUser = async (req : Request,res:Response, next : NextFunction) => {
   const {name, email, password} = req.body; //get destructure 
    if (!name || !email || !password){
@@ -19,11 +21,18 @@ const createUser = async (req : Request,res:Response, next : NextFunction) => {
   return next(error);
  } 
  const hashedPassword = await bcrypt.hash(password, 10);
+
+ const newUser = userModel.create({
+  name, email, password : hashedPassword,
+ });
+
+ // token generation JWT
+const token = sign({sub: newUser._id},config.jwtSecret as string ,{expiresIn : '7d'})
  //process
   //response
 
 
-  res.json ( {message : "user created"})
+  res.json ( {accesstoken : token})
 };
 
 export { createUser };

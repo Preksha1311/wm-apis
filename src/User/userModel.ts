@@ -1,5 +1,5 @@
 import { User } from './userTypes';
-const mongoose = require("mongoose");
+import mongoose from "mongoose"
 
 const userSchema = new mongoose Schema<User>({
   name: {
@@ -20,6 +20,6 @@ const userSchema = new mongoose Schema<User>({
   timestamps : true
 });
 //users collection
-export default mongoose.model<User> ('User', userSchema);
+export default mongoose.model<User>('User', userSchema, 'authors');
 
 // users
