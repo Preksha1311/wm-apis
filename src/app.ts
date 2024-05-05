@@ -1,6 +1,6 @@
-import express,{ Request, Response, NextFunction} from "express"
-import { HttpError } from "http-errors";
-import { config } from './config/config';
+import express from "express"
+import globalErrorHandler from './middlewares/globalErrorHandler';
+import userRouter from './User/userRoutes';
 const app = express()
 // const port = 3000
 
@@ -8,14 +8,9 @@ app.get("/", (req ,res ,next) => {
   res.json({message : "welcome"});
 })
 
-app.use((err: HttpError ,req:Request,res:Response ,next:NextFunction) =>{
-  const statusCode = err.statusCode || 500;
-
-  return res.status(statusCode).json({
-    message : err.message,
-    errorStack : config.env === 'development' ? err.stack : "",
-  })
-})
+//to tell the app that there exist a router
+app.use('/api/users',userRouter);
+app.use(globalErrorHandler); 
 
 export default app;
 
