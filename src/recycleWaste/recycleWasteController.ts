@@ -30,13 +30,23 @@ const createRecycleRequest = async (req : Request,res:Response, next : NextFunct
     const filename = files.uploadImg[0].filename;
 
     const filePath = path.resolve(__dirname,'../../public/data/uploads',filename)
-    const uploadResult = await cloudinary.uploader.upload(filePath,{
-      filename_override : filename,
-      folder : 'sample-objects',
-      format : coverImageMimeType
-    })
-    
-      res.status(201).json({message : "We will send a expert at your door at earliest"})
+   
+   try {
+     const uploadResult = await cloudinary.uploader.upload(filePath,{
+       filename_override : filename,
+       folder : 'sample-objects',
+       format : coverImageMimeType
+     });
+     console.log('uploadResult' ,uploadResult);
+     res.status(201).json({message : "We will send a expert at your door at earliest"})
+     
+   } catch (err) {
+    console.log(err)
+    return next(createHttpError(500,'Error while uploading the files.'))
+   }
+
+
+
 }
 
 export {createRecycleRequest}
