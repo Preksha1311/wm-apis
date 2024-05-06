@@ -1,12 +1,16 @@
 import express from "express"
-import { createWasteRequest } from "./wasteColllectionController";
+import { createWasteRequest, delRequest, getAllWasteRequest, getSingleWasteRequest, updateWasteRequest } from "./wasteColllectionController";
 // import { createUser, loginUser } from './userController';
 
 
 const wasteCollectionRouter = express.Router();
 
-wasteCollectionRouter.post("/wasteCollection", createWasteRequest);
-// wasteCollectionRouter.post("/wasteCollection/recycle", createRecycleRequest);
+wasteCollectionRouter.post("/create", createWasteRequest);
+wasteCollectionRouter.get("/getAll", getAllWasteRequest);
+wasteCollectionRouter.get("/collectWaste/:reqId", getSingleWasteRequest);
+wasteCollectionRouter.delete("/deleteRequest/:reqId", delRequest);
+wasteCollectionRouter.patch("/updateRequest/:reqId", updateWasteRequest);
+
 
 
 // router.post("/signup", signup);

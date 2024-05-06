@@ -15,7 +15,7 @@ app.get("/", (req ,res ,next) => {
 
 //to tell the app that there exist a router
 app.use('/api/users',userRouter);
-app.use('/req',wasteCollectionRouter);
+app.use('/req/wasteCollection',wasteCollectionRouter);
 app.use('/req',recycleWasteRouter);
 app.use(globalErrorHandler); 
 
