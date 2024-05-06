@@ -1,5 +1,5 @@
 import express from "express"
-import { createRecycleRequest, listBooks, updateRecycleRequest } from "./recycleWasteController";
+import { createRecycleRequest, getSingleId, listRecycleRequests, updateRecycleRequest } from "./recycleWasteController";
 import multer from "multer";
 import path from "node:path";
 // import { createUser, loginUser } from './userController';
@@ -28,7 +28,8 @@ recycleWasteRouter.patch("/recycleWaste/:reqId",upload.fields([
 ]), updateRecycleRequest);
 // wasteCollectionRouter.post("/wasteCollection/recycle", createRecycleRequest);
 
-recycleWasteRouter.get("/recycleWaste",listBooks)
+recycleWasteRouter.get("/recycleWaste",listRecycleRequests)
+recycleWasteRouter.get("/recycleWaste/:reqId",getSingleId)
 
 // router.post("/signup", signup);
 // router.post("/login", login);

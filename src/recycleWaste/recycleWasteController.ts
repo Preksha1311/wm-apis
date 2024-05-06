@@ -113,7 +113,7 @@ try {
     res.json(updateRecycleRequest);
 }
 
-const listBooks = async (req : Request,res:Response, next : NextFunction)=>{
+const listRecycleRequests = async (req : Request,res:Response, next : NextFunction)=>{
   try {
     const recycle =await recycleWasteModel.find();
     res.json (recycle);
@@ -124,4 +124,21 @@ const listBooks = async (req : Request,res:Response, next : NextFunction)=>{
   }
   
 }
-export {createRecycleRequest, updateRecycleRequest, listBooks}
+
+const getSingleId = async (req : Request,res:Response, next : NextFunction)=>{
+  const reqId = req.params.reqId;
+try {
+  // const reccp
+  const recycleRequest = await recycleWasteModel.findOne({_id: reqId})
+  if(!recycleRequest) { 
+    return next(createHttpError(404,"Recycle Request Not found")) ;
+  }
+  return res.json(recycleRequest);
+} catch (err) {
+  return next(createHttpError(500,"Error while getting a recycle details"))
+}
+
+}
+
+
+export {createRecycleRequest, updateRecycleRequest, listRecycleRequests, getSingleId}
