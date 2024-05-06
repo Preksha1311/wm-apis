@@ -57,4 +57,60 @@ const createRecycleRequest = async (req : Request,res:Response, next : NextFunct
 
 }
 
-export {createRecycleRequest}
+const updateRecycleRequest = async (req : Request,res:Response, next : NextFunction) =>{
+  const {name,address,contactNumber,wasteType} = req.body;
+  const reqId = req.params.reqId;
+
+  const recycleRequest = await recycleWasteModel.findOne({_id: reqId});
+  
+  if(!recycleRequest) { 
+    return next(createHttpError(404,"Recycle Request Not found")) ;
+  }
+
+  const files = req.files as {[fieldname : string] : Express.Multer.File[]};
+
+  let completeUploadImg = ""; //final url 
+  if(files.uploadImg){
+    const filename = files.uploadImg[0].filename;
+    const uploadMimeType = files.uploadImg[0].mimetype.split("/").at (-1);
+    //send file to cloudinary
+    const filePath = path.resolve(__dirname,"../../public/data/uploads" + filename);
+    completeUploadImg = filename;
+
+try {
+  const uploadResult = await cloudinary.uploader.upload(filePath, {
+    filename_override : completeUploadImg,
+    folder : "sample-objects",
+    format : uploadMimeType,
+  });
+  console.log('uploadResult' ,uploadResult);
+  completeUploadImg = uploadResult.secure_url;
+  await fs.promises.unlink(filePath);
+  
+  
+} catch (err) {
+  console.log(err);
+  return next(createHttpError(400,"Unable to upload image"));
+  }
+  
+}
+
+
+  const updateRecycleRequest = await recycleWasteModel.findOneAndUpdate(
+    {
+      _id : reqId,
+    },
+    
+    {
+      name : name,
+      address : address,
+      contactNumber : contactNumber,
+      wasteType : wasteType,
+      // uploadImg : completeUploadImg ? completeUploadImg : recycleRequest.uploadImg,
+    },
+      {new : true}
+    );
+    res.json(updateRecycleRequest);
+}
+
+export {createRecycleRequest, updateRecycleRequest}

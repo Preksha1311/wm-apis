@@ -1,5 +1,5 @@
 import express from "express"
-import { createRecycleRequest } from "./recycleWasteController";
+import { createRecycleRequest, updateRecycleRequest } from "./recycleWasteController";
 import multer from "multer";
 import path from "node:path";
 // import { createUser, loginUser } from './userController';
@@ -17,6 +17,15 @@ recycleWasteRouter.post("/recycleWaste",upload.fields([
 {name : 'wasteType', maxCount : 1},
 {name : 'uploadImg', maxCount : 2}
 ]), createRecycleRequest);
+
+//dynamic segment  id
+recycleWasteRouter.patch("/recycleWaste/:reqId",upload.fields([
+    {name : 'name', maxCount:1},
+{name : 'address', maxCount : 1},
+{name : 'contactNumber', maxCount : 1},
+{name : 'wasteType', maxCount : 1},
+{name : 'uploadImg', maxCount : 2}
+]), updateRecycleRequest);
 // wasteCollectionRouter.post("/wasteCollection/recycle", createRecycleRequest);
 
 
