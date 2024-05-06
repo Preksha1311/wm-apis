@@ -1,5 +1,5 @@
 import mongoose from "mongoose"
-import { recycleWaste } from './recycleWasteTypes';
+import { recycleWaste } from './recycleuploadImgs';
 
 const recycleWasteModel = new mongoose.Schema<recycleWaste>({
   name: {
@@ -16,7 +16,7 @@ const recycleWasteModel = new mongoose.Schema<recycleWaste>({
     minlength: 10,
     maxlength:10,
   },
-  wasteType : {
+  uploadImg : {
     type: String,
     required : true
   }
