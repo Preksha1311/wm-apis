@@ -3,7 +3,9 @@ import createHttpError from "http-errors"
 import bcrypt from "bcrypt";
 import userModel from "./userModel"
 import { config } from '../config/config';
-import sign from "jsonwebtoken"
+import {sign} from "jsonwebtoken"
+import { HttpError } from 'http-errors';
+import { User } from './userTypes';
 const createUser = async (req : Request,res:Response, next : NextFunction) => {
   const {name, email, password} = req.body; //get destructure 
    if (!name || !email || !password){
@@ -13,29 +15,64 @@ const createUser = async (req : Request,res:Response, next : NextFunction) => {
 
   //validation
   // db call
-  const user = await userModel.findOne({email : email});
-  // doc or null
-  if (user)
- {
-  const error = createHttpError(400,"User Exists");
-  return next(error);
- } 
- const hashedPassword = await bcrypt.hash(password, 10);
 
- const newUser = userModel.create({
-  name, email, password : hashedPassword,
- });
+  try {
+    const user = await userModel.findOne({email : email});
+    if (user) {
+      const error = createHttpError(400,"User Exists");
+      return next(error);
+   }
+  } catch (err) {
+    return next(createHttpError(500,"Error while getting User"))
+  }
+  
+  // doc or null
+  const hashedPassword = await bcrypt.hash(password, 10);
+  let newUser : User;
+try {
+  newUser = await userModel.create({
+   name, email, password : hashedPassword,
+  });
+ 
+} catch (err) {
+  return next(createHttpError(500,"Error while creating User"))
+}
 
  // token generation JWT
-const token = sign({sub: newUser._id},config.jwtSecret as string ,{expiresIn : '7d'})
- //process
-  //response
-
-
-  res.json ( {accesstoken : token})
+ try {
+     const token = sign({ sub: newUser._id },config.jwtSecret as string ,{ expiresIn : '7d' }) //sync function
+     //process
+     //response
+     res.status(201).json( {accesstoken : token})
+  
+ } catch (err) {
+  return next(createHttpError(500,"Error while signing JWT token"))
+ }
 };
+const loginUser = async (req : Request,res:Response, next : NextFunction) => {
+  const {email, password} = req.body;
+  if(!email || !password) { 
+    return next(createHttpError(400, "all fields are required"))
+  }
+ 
+    const user= await userModel.findOne({email});
+    if(!user) {
+      return next(createHttpError(400,"User not found"));
+    }
 
-export { createUser };
+  const isMatch = await bcrypt.compare(password, user.password )
+  if(!isMatch){
+    return next(createHttpError(400,"Username or password is incorrect"))
+  }
+
+  //new accessstoken generate
+  const token = sign({ sub: user._id },config.jwtSecret as string ,{ expiresIn : '7d' }) //sync function
+  res.status(201).json( {accesstoken : token})
+
+  // res.json({accessToken :})
+  
+}
+export { createUser,loginUser };
 /*const User = require("../model/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
