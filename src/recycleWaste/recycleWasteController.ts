@@ -113,4 +113,15 @@ try {
     res.json(updateRecycleRequest);
 }
 
-export {createRecycleRequest, updateRecycleRequest}
+const listBooks = async (req : Request,res:Response, next : NextFunction)=>{
+  try {
+    const recycle =await recycleWasteModel.find();
+    res.json (recycle);
+
+    //pagination in important 
+  } catch (err) {
+    return next(createHttpError(500, "Error while getting recycle item lists"))
+  }
+  
+}
+export {createRecycleRequest, updateRecycleRequest, listBooks}
