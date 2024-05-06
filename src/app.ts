@@ -1,6 +1,8 @@
 import express from "express"
 import globalErrorHandler from './middlewares/globalErrorHandler';
 import userRouter from './User/userRoutes';
+import wasteCollectionRouter from "./wasteCollection/wasteCollectionRouter";
+import recycleWasteRouter from "./recycleWaste/recycleWasteRouter";
 
 
 const app = express()
@@ -13,6 +15,8 @@ app.get("/", (req ,res ,next) => {
 
 //to tell the app that there exist a router
 app.use('/api/users',userRouter);
+app.use('/req',wasteCollectionRouter);
+app.use('/req',recycleWasteRouter);
 app.use(globalErrorHandler); 
 
 export default app;
