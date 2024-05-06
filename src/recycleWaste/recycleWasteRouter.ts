@@ -14,7 +14,8 @@ recycleWasteRouter.post("/recycleWaste",upload.fields([
     {name : 'name', maxCount:1},
 {name : 'address', maxCount : 1},
 {name : 'contactNumber', maxCount : 1},
-{name : 'uploadImg', maxCount : 1}
+{name : 'wasteType', maxCount : 1},
+{name : 'uploadImg', maxCount : 2}
 ]), createRecycleRequest);
 // wasteCollectionRouter.post("/wasteCollection/recycle", createRecycleRequest);
 

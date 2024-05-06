@@ -1,4 +1,5 @@
 import{ Request, Response, NextFunction } from "express"
+import fs from "node:fs"
 import createHttpError from "http-errors"
 import wasteCollectionModel from "./recycleWasteModel";
 import recycleWasteModel from "./recycleWasteModel";
@@ -9,7 +10,7 @@ import path from "node:path";
 import { data } from "autoprefixer";
 
 const createRecycleRequest = async (req : Request,res:Response, next : NextFunction) => {
-    // const {name,address,contactNumber,uploadImg} = req.body
+    const {name,address,contactNumber,wasteType} = req.body
     
     // if (!name || !address || !contactNumber || !uploadImg){
     //     const error = createHttpError(400,"All fields are required");
@@ -38,7 +39,14 @@ const createRecycleRequest = async (req : Request,res:Response, next : NextFunct
        format : coverImageMimeType
      });
      console.log('uploadResult' ,uploadResult);
-     res.status(201).json({message : "We will send a expert at your door at earliest"})
+
+     const newImage = await recycleWasteModel.create ({
+      name, address, contactNumber,wasteType, uploadImg: uploadResult.secure_url,
+     });
+
+     //delete temp files
+     await fs.promises.unlink(filePath);
+     res.status(201).json({id : newImage._id})
      
    } catch (err) {
     console.log(err)

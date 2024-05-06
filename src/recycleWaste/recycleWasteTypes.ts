@@ -3,6 +3,7 @@ export interface recycleWaste {
     name : string;
     address : string;
     contactNumber : string;
+    wasteType : string;
     uploadImg : string;
     createdAt : Date;
     updatedAt : Date
