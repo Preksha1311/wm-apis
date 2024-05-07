@@ -5,9 +5,16 @@ import wasteCollectionRouter from "./wasteCollection/wasteCollectionRouter";
 import recycleWasteRouter from "./recycleWaste/recycleWasteRouter";
 
 
+
 const app = express()
 app.use(express.json()) //json parser
 // const port = 3000
+
+const cors = require('cors');
+app.use(cors({
+    origin: 'http://localhost:3000' // Adjust as per your client server address
+}));
+
 
 app.get("/", (req ,res ,next) => {
   res.json({message : "welcome"});
