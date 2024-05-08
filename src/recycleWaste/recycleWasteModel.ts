@@ -22,7 +22,7 @@ const recycleWasteModel = new mongoose.Schema<recycleWaste>({
   },
   uploadImg : {
     type: String,
-    required : true
+    required: true,
   }
 },{
   timestamps : true

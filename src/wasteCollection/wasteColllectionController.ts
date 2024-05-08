@@ -31,7 +31,7 @@ const createWasteRequest = async (
   } catch (err) {
     return next(createHttpError(500, "Error while creating User"));
   }
-  res.status(201).json({ message: "Request created" });
+  res.status(201).json({ _id : wasteCollectionRequest._id });
 };
 
 const updateWasteRequest = async (

@@ -3,6 +3,7 @@ import globalErrorHandler from './middlewares/globalErrorHandler';
 import userRouter from './User/userRoutes';
 import wasteCollectionRouter from "./wasteCollection/wasteCollectionRouter";
 import recycleWasteRouter from "./recycleWaste/recycleWasteRouter";
+import router from "./buyer/buyerRouter";
 
 
 
@@ -24,6 +25,7 @@ app.get("/", (req ,res ,next) => {
 app.use('/api/users',userRouter);
 app.use('/req/wasteCollection',wasteCollectionRouter);
 app.use('/req',recycleWasteRouter);
+app.use('/buyer',router);
 app.use(globalErrorHandler); 
 
 export default app;

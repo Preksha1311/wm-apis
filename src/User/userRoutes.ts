@@ -15,7 +15,6 @@ const userRouter = express.Router();
 userRouter.post("/register", createUser);
 userRouter.post("/login", loginUser);
 
-
 // router.post("/signup", signup);
 // router.post("/login", login);
 // router.get("/user", verifyToken, getUser);

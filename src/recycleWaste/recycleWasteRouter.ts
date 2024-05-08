@@ -10,7 +10,7 @@ const upload = multer({
 })
 const recycleWasteRouter = express.Router();
 //                          router   custom - middleware/ multer   handler
-recycleWasteRouter.post("/recycleWaste",upload.fields([
+recycleWasteRouter.post("/recycleWaste/create",upload.fields([
     {name : 'name', maxCount:1},
 {name : 'address', maxCount : 1},
 {name : 'contactNumber', maxCount : 1},
@@ -19,7 +19,7 @@ recycleWasteRouter.post("/recycleWaste",upload.fields([
 ]), createRecycleRequest);
 
 //dynamic segment  id
-recycleWasteRouter.patch("/recycleWaste/:reqId",upload.fields([
+recycleWasteRouter.patch("/recycleWaste/update/:reqId",upload.fields([
     {name : 'name', maxCount:1},
 {name : 'address', maxCount : 1},
 {name : 'contactNumber', maxCount : 1},
@@ -28,8 +28,8 @@ recycleWasteRouter.patch("/recycleWaste/:reqId",upload.fields([
 ]), updateRecycleRequest);
 // wasteCollectionRouter.post("/wasteCollection/recycle", createRecycleRequest);
 
-recycleWasteRouter.get("/recycleWaste",listRecycleRequests)
-recycleWasteRouter.get("/recycleWaste/:reqId",getSingleId)
+recycleWasteRouter.get("/recycleWaste/list",listRecycleRequests)
+recycleWasteRouter.get("/recycleWaste/del/:reqId",getSingleId)
 recycleWasteRouter.delete("/recycleWaste/:reqId",delRequest)
 
 // router.post("/signup", signup);
